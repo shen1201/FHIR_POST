@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+   
+  <script src="setting.js"></script>
+  <script src="Cookie.js"></script> 
+  <script src="dateTime.js"></script> 
+  <script src="HTTP2024.js"></script>
+
+ <script>
+  //respiratoryRate.js
+
+  var jsonObj = {
+  "resourceType": "Observation",
+  "id": "example-observation-1",
+  "meta": {
+    "profile": ["http://hl7.org/fhir/StructureDefinition/bone-density"]
+  },
+  "status": "final",
+  "code": {
+    "coding": [
+      {
+        "system": "http://loinc.org",
+        "code": "41902-2",
+        "display": "Bone density"
+      }
+    ]
+  },
+  "subject": {
+    "reference": "Patient/23855265",
+    "display":"沈傳諺"
+  },
+  "effectiveDateTime": "2023-10-13T08:00:00-07:00",
+  "valueQuantity": {
+    "value": 0.65,
+    "unit": "g/cm²",
+    "system": "http://unitsofmeasure.org",
+    "code": "g/cm2"
+  },
+  "interpretation": [
+    {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+          "code": "L",
+          "display": "Low"
+        }
+      ],
+      "text": "Low bone density"
+    }
+  ]
+};
+
+	 
+   function postData()
+   { jsonObj.valueQuantity.value = parseFloat(document.getElementById("resRate").value);
+     jsonObj.effectiveDateTime = getFormattedTime();
+     var jsonStr = JSON.stringify(jsonObj);
+    //alert(jsonStr);
+    var apiURL;
+    apiURL = FHIRrootURL  + "Observation";
+    // HTTPPostData( apiURL,jsonStr);
+    sendHttpPost(apiURL, jsonStr, callBack);
+   } 
+   function callBack(ret) {
+        console.log(ret);    
+        //alert(ret);
+        }
+ 
+	
+</script>	
+	
+</head>
+<body style="height: 780px">
+ 
+    <p>請輸入骨質疏鬆度</p>
+   
+     <input id="Button1" onclick="postData()"  type="button" value="postData" /><br/>
+     
+     骨質疏鬆: <input type="text" id="resRate" />  <br/>
+
+  
+  
+</body>
+
+</html>
